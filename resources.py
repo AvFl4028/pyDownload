@@ -4,8 +4,8 @@ import shutil
 mainPath = os.path.dirname(os.path.abspath(__file__))
 
 
-def move_resources(move_resources_path):
-    files_video = filter_for_extension(".mp4")
+def move_resources(move_resources_path, type_file =".mp4"):
+    files_video = filter_for_extension(type_file)
 
     for video in files_video:
         shutil.move(video, move_resources_path)

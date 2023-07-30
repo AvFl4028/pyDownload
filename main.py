@@ -13,8 +13,6 @@ path_file_download: str = f"C:/Users/{os.getlogin()}/Downloads"
 
 pathFiles: str = path_file_video
 
-mediaType = options_media[1]
-
 progress_bar_value: int = 0
 
 # create new windows of tkinter
@@ -23,11 +21,9 @@ frm = ttk.Frame(root, padding=10)
 frm.grid()
 
 # main values for tkinter
-root.geometry("275x100")
-root.minsize(275, 100)
+root.geometry("275x125")
+root.minsize(275, 125)
 root.title("pyDownload")
-
-ttk.Label(frm, text="Url").grid(row=3, column=0)
 
 
 # this function is for send all the data to the download videos function
@@ -55,17 +51,25 @@ def change_media_value():
         os.mkdir(resources_path)
 
     url_yt = yt_get_url.get()
-    # get_playlist(url_yt, resources_path)
+
+    if option_default_type_file.get() == options_type_video[1]:
+        print("Video url: ")
+        download_video(url_yt, f"{mediaType}")
+        move_resources(resources_path, f".{mediaType}")
+    else:
+        url_playlist = get_playlist(url_yt)
+        print(f"Number of videos in the playlist: {len(url_playlist)}")
+        for url in url_playlist:
+            print(f"Url of video in playlist: {url}")
+            download_video(url, mediaType)
+            move_resources(resources_path, f".{mediaType}")
+
     print(pathFiles, " ", mediaType, " ", yt_get_url.get(), resources_path)
 
     yt_get_url.delete(0, END)
 
     return
 
-
-# create entre for yt url
-yt_get_url = ttk.Entry(frm)
-yt_get_url.grid(row=3, column=1)
 
 # default option for selection of type of media
 option_default_media = StringVar()
@@ -85,13 +89,20 @@ ttk.Label(frm, text="Select download path").grid(row=1, column=0)
 path_download_file_get = ttk.OptionMenu(frm, option_default_file_path, *options_file_path)
 path_download_file_get.grid(column=1, row=1)
 
-option_default_file_path = StringVar()
-option_default_file_path.set(options_file_path[0])
+option_default_type_file = StringVar()
+option_default_type_file.set(options_file_path[0])
 
 # label for select format file
-ttk.Label(frm, text="Select download path").grid(row=1, column=0)
-path_download_file_get = ttk.OptionMenu(frm, option_default_file_path, *options_file_path)
+ttk.Label(frm, text="Select type of download").grid(row=2, column=0)
+path_download_file_get = ttk.OptionMenu(frm, option_default_type_file, *options_type_video)
 path_download_file_get.grid(column=1, row=2)
+
+# label for url
+ttk.Label(frm, text="Url").grid(row=3, column=0)
+
+# create entre for yt url
+yt_get_url = ttk.Entry(frm)
+yt_get_url.grid(row=3, column=1)
 
 # Button for start downloading the videos
 ttk.Button(frm, text="Download", command=change_media_value).grid(row=4, column=0)
