@@ -1,15 +1,16 @@
 # this file is for the functions for download the videos
 from resources import *
-from moviepy.editor import *
 import os
 
 try:
     from pytube import Playlist, YouTube
     from art import *
+    from moviepy.editor import *
 
 except Exception:
     os.system("pip install pytube")
     os.system("pip install art")
+    os.system("pip install moviepy")
 
 
 def get_playlist(playlists):

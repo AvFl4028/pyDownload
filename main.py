@@ -25,6 +25,7 @@ root.geometry("275x125")
 root.minsize(275, 125)
 root.title("pyDownload")
 
+# root.wm_iconbitmap("res/icon/pyDownload.ico")
 
 # this function is for send all the data to the download videos function
 def change_media_value():
