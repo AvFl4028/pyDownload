@@ -17,12 +17,12 @@ progress_bar_value: int = 0
 
 # create new windows of tkinter
 root = Tk()
+root.resizable(width=False, height=False)
 frm = ttk.Frame(root, padding=10)
 frm.grid()
 
 # main values for tkinter
 root.geometry("275x125")
-root.minsize(275, 125)
 root.title("pyDownload")
 
 # root.wm_iconbitmap("res/icon/pyDownload.ico")
@@ -54,7 +54,6 @@ def change_media_value():
     url_yt = yt_get_url.get()
 
     if option_default_type_file.get() == options_type_video[1]:
-        print("Video url: ")
         download_video(url_yt, f"{mediaType}")
         move_resources(resources_path, f".{mediaType}")
     else:
