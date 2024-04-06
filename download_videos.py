@@ -1,5 +1,6 @@
 # this file is for the functions for download the videos
 from resources import *
+from tkinter import messagebox
 import os
 
 try:
@@ -8,9 +9,8 @@ try:
     from moviepy.editor import *
 
 except Exception:
-    os.system("pip install pytube")
-    os.system("pip install art")
-    os.system("pip install moviepy")
+    messagebox.showerror("Problema con paquetes", "Instala los paquetes de requirements.txt")
+    exit(1)
 
 
 def get_playlist(playlists):

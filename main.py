@@ -17,44 +17,46 @@ progress_bar_value: int = 0
 
 # create new windows of tkinter
 root = Tk()
+root.resizable(width=False, height=False)
 frm = ttk.Frame(root, padding=10)
 frm.grid()
 
 # main values for tkinter
 root.geometry("275x125")
-root.minsize(275, 125)
 root.title("pyDownload")
 
 # root.wm_iconbitmap("res/icon/pyDownload.ico")
 
+
 # this function is for send all the data to the download videos function
 def change_media_value():
     global pathFiles
-    if option_default_file_path.get() == options_file_path[0]:
+    media = option_default_media.get()
+    path = option_default_file_path.get()
+    file_type = option_default_type_file.get()
+    if path == options_file_path[0]:
         pathFiles = path_file_video
 
-    if option_default_file_path.get() == options_file_path[2]:
+    elif path == options_file_path[2]:
         pathFiles = path_file_music
 
-    if option_default_file_path.get() == options_file_path[3]:
+    elif path == options_file_path[3]:
         pathFiles = path_file_download
 
-    if option_default_media.get() == options_media[1]:
+    if media == options_media[1]:
         mediaType = options_media[1]
     else:
         mediaType = options_media[2]
 
     resources_path = f"{pathFiles}/pyDownload"
-    if yt_get_url.get() == "":
-        return
-
     if not os.path.exists(resources_path):
         os.mkdir(resources_path)
 
     url_yt = yt_get_url.get()
+    if not url_yt:
+        return
 
-    if option_default_type_file.get() == options_type_video[1]:
-        print("Video url: ")
+    if file_type == options_type_video[1]:
         download_video(url_yt, f"{mediaType}")
         move_resources(resources_path, f".{mediaType}")
     else:
@@ -87,7 +89,9 @@ option_default_file_path.set(options_file_path[0])
 
 # label for select format file
 ttk.Label(frm, text="Select download path").grid(row=1, column=0)
-path_download_file_get = ttk.OptionMenu(frm, option_default_file_path, *options_file_path)
+path_download_file_get = ttk.OptionMenu(
+    frm, option_default_file_path, *options_file_path
+)
 path_download_file_get.grid(column=1, row=1)
 
 option_default_type_file = StringVar()
@@ -95,7 +99,9 @@ option_default_type_file.set(options_file_path[0])
 
 # label for select format file
 ttk.Label(frm, text="Select type of download").grid(row=2, column=0)
-path_download_file_get = ttk.OptionMenu(frm, option_default_type_file, *options_type_video)
+path_download_file_get = ttk.OptionMenu(
+    frm, option_default_type_file, *options_type_video
+)
 path_download_file_get.grid(column=1, row=2)
 
 # label for url

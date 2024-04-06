@@ -1,5 +1,6 @@
 # pyDownload
-## `This a little downloader for playlist and videos of` [Youtube](sa)
+## This a little downloader for playlist and videos
+[Youtube](sa)
 
 ## Image
 ### Simple GUI
