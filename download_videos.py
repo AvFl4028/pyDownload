@@ -5,12 +5,14 @@ import os
 try:
     from pytube import Playlist, YouTube
     from art import *
-    from moviepy.editor import *
+    from moviepy import VideoFileClip
+    import yt_dlp
 
 except Exception:
     os.system("pip install pytube")
     os.system("pip install art")
     os.system("pip install moviepy")
+    os.system("pip install tl_dlp")
 
 
 def get_playlist(playlists):
@@ -21,17 +23,25 @@ def get_playlist(playlists):
     return urls
 
 
-def download_video(url, type_file="mp4"):
+def download_video(url: str, type_file: str = "mp4", name: str = ""):
     try:
-        # Crear un objeto YouTube
-        video = YouTube(url)
+        output: str = "./"
 
         # Seleccionar el formato de mayor resolución disponible para descargar
-        video_stream = video.streams.get_highest_resolution()
+        ydl_opts: dict = {
+            "format": "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4",
+            "outtmpl": os.path.join(
+                output, f"{name}.mp4"
+            ),  # Ruta completa del archivo
+            "merge_output_format": "mp4",
+        }
 
         # Descargar el video en el directorio actual
-        video_stream.download()
-        print(f"video descargado: {video_stream.title}")
+
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download(url)
+
+        print(f"video descargado: {name}")
 
         if type_file == "mp4":
             return
@@ -41,7 +51,7 @@ def download_video(url, type_file="mp4"):
         for delete in delete_videos:
             os.remove(delete)
     except Exception as e:
-        print('Error al descargar el video:', str(e))
+        print("Error al descargar el video:", str(e))
 
 
 def convert_to_mp3():

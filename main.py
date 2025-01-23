@@ -11,6 +11,8 @@ path_file_video: str = f"C:/Users/{os.getlogin()}/Videos"
 path_file_music: str = f"C:/Users/{os.getlogin()}/Music"
 path_file_download: str = f"C:/Users/{os.getlogin()}/Downloads"
 
+path_file_music: str = "E:\\Music\\pyDownload\\"
+
 pathFiles: str = path_file_video
 
 progress_bar_value: int = 0
@@ -26,6 +28,7 @@ root.minsize(275, 125)
 root.title("pyDownload")
 
 # root.wm_iconbitmap("res/icon/pyDownload.ico")
+
 
 # this function is for send all the data to the download videos function
 def change_media_value():
@@ -60,10 +63,12 @@ def change_media_value():
     else:
         url_playlist = get_playlist(url_yt)
         print(f"Number of videos in the playlist: {len(url_playlist)}")
+        index: int = 0
         for url in url_playlist:
-            print(f"Url of video in playlist: {url}")
-            download_video(url, mediaType)
+            print(f"Url of video in playlist: {url} \nNamed: {index}")
+            download_video(url, mediaType, str(index))
             move_resources(resources_path, f".{mediaType}")
+            index += 1
 
     print(pathFiles, " ", mediaType, " ", yt_get_url.get(), resources_path)
 
@@ -87,7 +92,9 @@ option_default_file_path.set(options_file_path[0])
 
 # label for select format file
 ttk.Label(frm, text="Select download path").grid(row=1, column=0)
-path_download_file_get = ttk.OptionMenu(frm, option_default_file_path, *options_file_path)
+path_download_file_get = ttk.OptionMenu(
+    frm, option_default_file_path, *options_file_path
+)
 path_download_file_get.grid(column=1, row=1)
 
 option_default_type_file = StringVar()
@@ -95,7 +102,9 @@ option_default_type_file.set(options_file_path[0])
 
 # label for select format file
 ttk.Label(frm, text="Select type of download").grid(row=2, column=0)
-path_download_file_get = ttk.OptionMenu(frm, option_default_type_file, *options_type_video)
+path_download_file_get = ttk.OptionMenu(
+    frm, option_default_type_file, *options_type_video
+)
 path_download_file_get.grid(column=1, row=2)
 
 # label for url
